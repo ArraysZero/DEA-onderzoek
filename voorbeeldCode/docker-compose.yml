@@ -1,0 +1,23 @@
+services:
+  ###############
+  # AUTH SERVER #
+  ###############
+  server:
+    container_name: server
+    build:
+      context: ./example
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./example/src:/usr/src/app/src:delegated
+    environment:
+      # JWT_SECRET: ${JWT_SECRET}
+      # SALT_ROUNDS: ${SALT_ROUNDS}
+      # POSTGRES_PASSWORD: example
+      # POSTGRES_USER: example
+      # POSTGRES_DB: auth-db
+      # POSTGRES_HOST: auth-db
+    ports:
+      # - "4000:3000"
+    depends_on:
+      # - auth-db
+    restart: always
