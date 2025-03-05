@@ -15,16 +15,17 @@ public class UserDAO {
 	public UserDTO getUser(String username) {
 
 		try (Connection conn = new Database().connect()) {
-			String sql = "SELECT * FROM User WHERE username = ?";
+			String sql = "SELECT * FROM User WHERE name = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, username);
   		var result = stmt.executeQuery();
 			if (result.next()) {
-				return new UserDTO(result.getNString("name"), result.getNString("password"));
-			} else {
+				return new UserDTO(result.getString("name"), result.getString("password"));
+      } else {
 				return null;
 			}
 		} catch (SQLException e) {
+      System.out.println("SQLException" + e);
 			throw new DataAccessException(e.getMessage());
 		}
 	}
