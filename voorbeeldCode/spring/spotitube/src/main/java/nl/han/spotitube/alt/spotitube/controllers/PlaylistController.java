@@ -19,7 +19,6 @@ public class PlaylistController {
 	@GetMapping("/playlists")
 	public PlaylistListDTO getPlaylists(@RequestParam String token) {
 		// do something
-		System.out.println(token);
 		UserDTO user = new LoginService().checkToken(token);
 
 		return new PlaylistService().getAllPlaylists(user.getUser());
@@ -27,6 +26,8 @@ public class PlaylistController {
 
 	@DeleteMapping("playlists/{id}")
 	public PlaylistListDTO removePlaylist(@RequestParam String token, @PathVariable int id) {
-		return null;
+    UserDTO user = new LoginService().checkToken(token);
+
+		return new PlaylistService().deletePlaylist(user.getUser(), id);
 	}
 }

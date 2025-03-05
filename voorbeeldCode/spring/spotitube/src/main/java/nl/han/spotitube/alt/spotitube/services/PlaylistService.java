@@ -23,4 +23,13 @@ public class PlaylistService {
 
 		return result;
 	}
+
+  public PlaylistListDTO deletePlaylist(String user, int playlist) {
+    var dao = new PlaylistDAO();
+    if (dao.getPlaylist(playlist) != null) {
+      dao.deletePlaylist(playlist);
+    }
+    
+    return getAllPlaylists(user);
+  }
 }

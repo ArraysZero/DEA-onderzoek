@@ -24,6 +24,7 @@ public class LoginService {
 
 	public UserDTO checkToken(String token) {
 		if (token.equals("1024-abcd-4096-wxyz")) {
+//      System.out.println();
 			return new UserDAO().getUser("Dani");
 		}
 		throw new LoginException("token does not exist");

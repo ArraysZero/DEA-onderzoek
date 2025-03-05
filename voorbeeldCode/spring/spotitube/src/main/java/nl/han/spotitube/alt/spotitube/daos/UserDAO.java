@@ -14,8 +14,7 @@ public class UserDAO {
 
 	public UserDTO getUser(String username) {
 
-		try (Connection conn = new Database().connect()) {
-			String sql = "SELECT * FROM User WHERE name = ?";
+		try (Connection conn = new Database().connect()) { String sql = "SELECT * FROM User WHERE name = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, username);
   		var result = stmt.executeQuery();
