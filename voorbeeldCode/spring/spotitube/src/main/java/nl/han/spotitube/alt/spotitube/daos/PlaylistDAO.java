@@ -25,7 +25,8 @@ public class PlaylistDAO {
       ArrayList<PlaylistDTO> playlists = new ArrayList();
 
       while (result.next()) {
-        playlists.add(new PlaylistDTO(result.getInt("id"), result.getString("name"), result.getString("owner")));
+        System.out.println("new playlist " + result.getInt("id"));
+        playlists.add(new PlaylistDTO(result.getInt("id"), result.getString("name"), result.getString("owner"), (new PlaylistTracks().getTracksOnPlaylist(result.getInt("id")))));
       }
 
       return playlists.toArray(new PlaylistDTO[playlists.size()]);
