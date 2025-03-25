@@ -1,35 +1,33 @@
 package nl.han.spotitube.alt.spotitube.services;
 
 import nl.han.spotitube.alt.spotitube.daos.PlaylistDAO;
-import nl.han.spotitube.alt.spotitube.dtos.PlayListUserDTO;
-import nl.han.spotitube.alt.spotitube.dtos.PlaylistDTO;
-import nl.han.spotitube.alt.spotitube.dtos.PlaylistListDTO;
+import nl.han.spotitube.alt.spotitube.dtos.*;
 
 public class PlaylistService {
 
+  PlaylistDAO playlistDAO = new PlaylistDAO();
+
 	public PlaylistListDTO getAllPlaylists(String user) {
-		PlaylistDTO[] playlists = new PlaylistDAO().getPlaylists();
+    var playlists = playlistDAO.getAllPlaylists();
 
-		PlaylistListDTO result = new PlaylistListDTO(new PlayListUserDTO[playlists.length]);
+    var playlistList = new PlaylistListDTO(new PlaylistDataDTO[playlists.length]);
 
-		for (int i = 0; i < playlists.length; i++) {
-			result.getPlaylists()[i] = new PlayListUserDTO(
-				playlists[i].getId(), 
-				playlists[i].getName(), 
-				user.equals(playlists[i].getOwner()),
-				playlists[i].getTracks()
-				);
-		}
+    int i = 0;
 
-		return result;
-	}
-
-  public PlaylistListDTO deletePlaylist(String user, int playlist) {
-    var dao = new PlaylistDAO();
-    if (dao.getPlaylist(playlist) != null) {
-      dao.deletePlaylist(playlist);
+    for (PlaylistDTO playlist : playlists) {
+      playlistList.getPlaylists()[i] = new PlaylistDataDTO(playlist.getId(), playlist.getName(), ((user.equals(playlist.getOwner())) ? true : false), new TrackListDTO(playlist.getTracks()));
+      i++;
     }
-    
-    return getAllPlaylists(user);
-  }
+
+	  return playlistList;
+	}
+	//
+	// public PlaylistListDTO deletePlaylist(String user, int playlist) {
+	//   return null;
+	// }
+	//
+	// public PlaylistListDTO addPlaylist(PlaylistDTO playlist, String user) {
+	//
+	//   return null;
+	// }
 }

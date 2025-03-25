@@ -1,25 +1,29 @@
 package nl.han.spotitube.alt.spotitube.dtos;
 
 public class UserDTO {
+  
+  private String username;
+  private String token;
 
-	private String user;
-	private String password;
-	public UserDTO(String user, String password) {
-		this.user = user;
-		this.password = password;
-	}
-	public String getUser() {
-		return user;
-	}
-	public void setUser(String user) {
-		this.user = user;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	
+  public UserDTO(String username, String token) {
+    this.username = username;
+    this.token = token;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public String getToken() {
+    return token;
+  }
+
+  public void setUsername() {
+    this.username = username;
+  }
+
+  public void setToken() {
+    this.token = token;
+  }
+
 }

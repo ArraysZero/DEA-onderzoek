@@ -11,21 +11,71 @@ import nl.han.spotitube.alt.spotitube.dtos.UserDTO;
 import nl.han.spotitube.alt.spotitube.exceptions.DataAccessException;
 
 public class UserDAO {
+  // connection
+  private Connection getConnection() {
+    try {
+      return new Database().connect();
+    } catch (Exception e) {
+      //TODO: handle exception
+      throw new DataAccessException("databse connection failed");
+    }
+  }
+  //
+  public CredentialsDTO getUser(String username) {
+    try (var conn = getConnection()) {
+      String sql = "SELECT * FROM User WHERE name = ?";
 
-	public UserDTO getUser(String username) {
+      var stmt = conn.prepareStatement(sql);
+      stmt.setString(1, username);
 
-		try (Connection conn = new Database().connect()) { String sql = "SELECT * FROM User WHERE name = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, username);
-  		var result = stmt.executeQuery();
-			if (result.next()) {
-				return new UserDTO(result.getString("name"), result.getString("password"));
-      } else {
-				return null;
-			}
-		} catch (SQLException e) {
-      System.out.println("SQLException" + e);
-			throw new DataAccessException(e.getMessage());
-		}
-	}
+      var result = stmt.executeQuery();
+
+      if (result.next()) {
+        return new CredentialsDTO(result.getString("name"), result.getString("password"));
+      }
+
+      return null;
+    } catch (SQLException e) {
+      //TODO: handle exception
+      throw new DataAccessException(e.getMessage());
+    }
+  }
+
+  public UserDTO getToken(String token) {
+    try (var conn = getConnection()) {
+      String sql = "SELECT * FROM User WHERE token = ?";
+
+      var stmt = conn.prepareStatement(sql);
+      stmt.setString(1, token);
+
+      var result = stmt.executeQuery();
+
+      if (result.next()) {
+        return new UserDTO(result.getString("name"), result.getString("token"));
+      }
+
+      return null;
+    } catch (SQLException e) {
+      //TODO: handle exception
+      throw new DataAccessException(e.getMessage());
+    }
+  }
+
+  public boolean addToken(UserDTO user) {
+    try (var conn = getConnection()) {
+      String sql = "UPDATE User SET token = ? WHERE name = ?";
+
+      var stmt = conn.prepareStatement(sql);
+      stmt.setString(1, user.getToken());
+      stmt.setString(2, user.getUsername());
+
+      var result = stmt.execute();
+
+      return true;
+
+     } catch (SQLException e) {
+      //TODO: handle exception
+      throw new DataAccessException(e.getMessage());
+    }
+  }
 }
