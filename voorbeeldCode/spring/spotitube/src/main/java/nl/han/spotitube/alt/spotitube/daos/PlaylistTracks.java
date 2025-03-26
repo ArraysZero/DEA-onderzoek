@@ -27,7 +27,6 @@ public class PlaylistTracks {
 
       ArrayList<Integer> trackIds = new ArrayList();
       while (result.next()) {
-        System.out.println("add track to " + playlistId);
         trackIds.add(result.getInt("trackId"));
       }
 

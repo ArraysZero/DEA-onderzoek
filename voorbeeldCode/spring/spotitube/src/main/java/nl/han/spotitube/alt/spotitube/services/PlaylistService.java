@@ -21,13 +21,24 @@ public class PlaylistService {
 
 	  return playlistList;
 	}
-	//
-	// public PlaylistListDTO deletePlaylist(String user, int playlist) {
-	//   return null;
-	// }
-	//
-	// public PlaylistListDTO addPlaylist(PlaylistDTO playlist, String user) {
-	//
-	//   return null;
-	// }
+
+	 public PlaylistListDTO deletePlaylist(String user, int playlistId) {
+
+     playlistDAO.deletePlaylist(playlistId);
+
+     return getAllPlaylists(user);
+	 }
+
+	 public PlaylistListDTO addPlaylist(PlaylistDTO playlist, String user) {
+
+	   return null;
+	 }
+
+   public PlaylistListDTO addPlaylist(PlaylistDTO playlist) {
+
+     playlist.setId((int) ((Math.random()) * 10000));
+     playlistDAO.addPlaylist(playlist);
+
+     return getAllPlaylists(playlist.getOwner());
+   }
 }

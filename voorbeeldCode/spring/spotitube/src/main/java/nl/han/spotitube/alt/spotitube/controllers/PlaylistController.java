@@ -33,15 +33,15 @@ public class PlaylistController {
 
 	@DeleteMapping("/playlists/{id}")
 	public PlaylistListDTO removePlaylist(@RequestParam String token, @PathVariable int id) {
-    //UserDTO user = new LoginService().checkToken(token);
+    UserDTO user = new LoginService().checkToken(token);
 
-		return null; // new PlaylistService().deletePlaylist(user.getUser(), id);
+		return new PlaylistService().deletePlaylist(user.getUsername(), id);
 	}
 
   @PostMapping("/playlists")
   public PlaylistListDTO addPlaylist(@RequestParam String token, @RequestBody PlaylistDTO playlist) {
-    //UserDTO user = new LoginService().checkToken(token);
+    UserDTO user = new LoginService().checkToken(token);
 
-    return null; // new PlaylistService().addPlaylist(playlist, user.getUser());
+    return new PlaylistService().addPlaylist(playlist);
   }
 }

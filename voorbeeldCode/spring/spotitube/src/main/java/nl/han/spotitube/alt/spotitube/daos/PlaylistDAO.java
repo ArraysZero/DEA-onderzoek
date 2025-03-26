@@ -25,7 +25,6 @@ public class PlaylistDAO {
       ArrayList<PlaylistDTO> playlists = new ArrayList();
 
       while (result.next()) {
-        System.out.println("new playlist " + result.getInt("id"));
         playlists.add(new PlaylistDTO(result.getInt("id"), result.getString("name"), result.getString("owner"), (new PlaylistTracks().getTracksOnPlaylist(result.getInt("id")))));
       }
 
@@ -36,4 +35,34 @@ public class PlaylistDAO {
       throw new DataAccessException(e.getMessage());
     }
   }
+
+  public void deletePlaylist(int playlist) {
+    
+    try (Connection conn = new Database().connect()) {
+      String sql = "DELETE FROM Playlist WHERE id = ?";
+
+      var stmt = conn.prepareStatement(sql);
+      stmt.setInt(1, playlist);
+
+      var result = stmt.execute();
+    } catch (SQLException e) {
+      throw new DataAccessException(e.getMessage());
+    }
+  }
+
+  public void addPlaylist(PlaylistDTO playlist) {
+    
+    try (Connection conn = new Database().connect()) {
+      String sql = "INSERT INTO Playlist (id, name, owner) VALUES (?, ?, ?)";
+
+      var stmt = conn.prepareStatement(sql);
+      stmt.setInt(1, playlist.getId());
+      stmt.setString(2, playlist.getName());
+      stmt.setString(3, playlist.getOwner());
+
+      var result = stmt.execute();
+    } catch (SQLException e) {
+      throw new DataAccessException(e.getMessage());
+    }
+}
 }

@@ -23,6 +23,10 @@ public class PlaylistDTO {
     this.tracks = new TrackDTO[0];
   }
 
+  public PlaylistDTO () {
+
+  }
+
   public int getId() {
     return id;
   }
@@ -37,5 +41,21 @@ public class PlaylistDTO {
 
   public TrackDTO[] getTracks() {
     return tracks;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setOwner(String owner) {
+    this.owner = owner;
+  }
+
+  public void getTracks(TrackDTO[] tracks) {
+    this.tracks = tracks;
   }
 }
